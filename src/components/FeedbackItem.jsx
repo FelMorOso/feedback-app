@@ -5,7 +5,7 @@ import Card from './shared/Card'
 function FeedbackItem({item, handleDelete}) {
     return (
         // card class specified in index.css and does all styling
-        <Card reverse={true}>
+        <Card>
             {/* Creates number display */}
             <div className="num-display">{item.rating}</div>
             
