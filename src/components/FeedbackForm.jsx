@@ -3,7 +3,7 @@ import RatingSelect from './RatingSelect'
 import Card from './shared/Card'
 import Button from './shared/Button'
 
-function FeedbackForm() {
+function FeedbackForm({handleAdd}) {
     // Stores the state of the text passed into Form by user
     const [text, setText] = useState('')
     // rating state
@@ -33,6 +33,19 @@ function FeedbackForm() {
         setText(e.target.value)
     }
 
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        if(text.trim().length > 10) {
+            const newFeedback = {
+                text: text,
+                rating: rating,
+            }
+            
+            handleAdd(newFeedback)
+
+            setText('')
+        }
+    }
     
     return (
         <Card>

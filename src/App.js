@@ -1,3 +1,4 @@
+import {v4 as uuidv4} from 'uuid'
 import { useState } from 'react'
 import Header from './components/Header'
 import FeedbackList from './components/FeedbackList'
@@ -7,6 +8,10 @@ import FeedbackForm from './components/FeedbackForm'
 
 function App() {
     const [feedback, setFeedback] = useState(FeedbackData)
+    const addFeedback = (newFeedback) => {
+        newFeedback.id = uuidv4()
+        setFeedback([newFeedback, ...feedback]) //copies immutable feedback array adds new feedback to start
+    }
 
     const deleteFeedback = (id) => {
         if (window.confirm('Are you sure that you want to delete?')) {
@@ -24,7 +29,7 @@ function App() {
             {/* Important: must use 'className' instead of 'class' for JSX (version of HTML used in React) */}
             {/*Important: this return must only have 1 html component*/}
             <div className='container'>
-                <FeedbackForm />
+                <FeedbackForm handleAdd={addFeedback} />
                 <FeedbackStats feedback={feedback} />
                 <FeedbackList feedback={feedback} handleDelete={deleteFeedback}/>
             </div>
