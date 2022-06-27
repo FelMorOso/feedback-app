@@ -23,6 +23,12 @@ export const FeedbackProvider = ({children}) => {
         },
     ])
 
+    //stores state of which feedback item is currently being edited
+    const [feedbackEdit, setFeedbackEdit] = useState({
+        item: {},
+        edit: false,
+    })
+
     const addFeedback = (newFeedback) => {
         newFeedback.id = uuidv4()
         setFeedback([newFeedback, ...feedback]) //copies immutable feedback array adds new feedback to start
@@ -35,11 +41,27 @@ export const FeedbackProvider = ({children}) => {
             setFeedback(feedback.filter((item) => item.id !== id))
         }
     }
+
+    //Update feedback item
+    const updateFeedback = (id, updItem) => {
+        setFeedback(feedback.map((item) => item.id === id ? { ... item, ... updItem} : item))
+    }
+
+    // set item to be updated
+    const editFeedback = (item) => {
+        setFeedbackEdit({
+            item: item,
+            edit: true,
+        })
+    }
     
     return <FeedbackContext.Provider value={{
         feedback: feedback,   // IMPORTANT: all states and functions must be passed through here
+        feedbackEdit: feedbackEdit,
         deleteFeedback: deleteFeedback,
         addFeedback: addFeedback,
+        editFeedback: editFeedback,
+        updateFeedback: updateFeedback,
     }}>
         {children}
     </FeedbackContext.Provider>

@@ -1,4 +1,4 @@
-import {useState, useContext} from 'react'
+import {useState, useContext, useEffect} from 'react'
 import RatingSelect from './RatingSelect'
 import Card from './shared/Card'
 import Button from './shared/Button'
@@ -15,7 +15,17 @@ function FeedbackForm() {
     const [message, setMessage] = useState(``)
 
     //imports function from context
-    const {addFeedback} = useContext(FeedbackContext)
+    const {addFeedback, feedbackEdit, updateFeedback} = useContext(FeedbackContext)
+
+    //first value is a callback, second item is the dependency
+    //callback is called when the dependency state changes
+    useEffect(() => {
+        if (feedbackEdit.edit === true) {
+            setBtnDisabled(false)
+            setText(feedbackEdit.item.text)
+            setRating(feedbackEdit.item.rating)
+        }
+    }, [feedbackEdit])
 
     //function updating state when text inputed
     const handleTextChange = (e) => {
@@ -45,7 +55,12 @@ function FeedbackForm() {
                 rating: rating,
             }
             
-            addFeedback(newFeedback)
+            //update or add feedback depending on what is needed
+            if(feedbackEdit.edit === true) {
+                updateFeedback(feedbackEdit.item.id, newFeedback)
+            } else {
+                addFeedback(newFeedback)
+            }
 
             setText('')
         }
