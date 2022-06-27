@@ -1,8 +1,12 @@
 import {FaTimes} from 'react-icons/fa'
+import { useContext } from 'react'
 import PropTypes from 'prop-types'
 import Card from './shared/Card'
+import FeedbackContext from '../context/FeedbackContext'
 
-function FeedbackItem({item, handleDelete}) {
+function FeedbackItem({item}) {
+    const {deleteFeedback} = useContext(FeedbackContext)
+    
     return (
         // card class specified in index.css and does all styling
         <Card>
@@ -10,7 +14,7 @@ function FeedbackItem({item, handleDelete}) {
             <div className="num-display">{item.rating}</div>
             
             {/* Creates button that is reactive (by passing in a callback function) */}
-            <button onClick={() => handleDelete(item.id)} className="close">
+            <button onClick={() => deleteFeedback(item.id)} className="close">
                 {/* Creates a purple X*/}
                 <FaTimes color='purple'/>
             </button>

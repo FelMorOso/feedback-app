@@ -1,9 +1,10 @@
-import {useState} from 'react'
+import {useState, useContext} from 'react'
 import RatingSelect from './RatingSelect'
 import Card from './shared/Card'
 import Button from './shared/Button'
+import FeedbackContext from '../context/FeedbackContext'
 
-function FeedbackForm({handleAdd}) {
+function FeedbackForm() {
     // Stores the state of the text passed into Form by user
     const [text, setText] = useState('')
     // rating state
@@ -12,6 +13,9 @@ function FeedbackForm({handleAdd}) {
     const [btnDisabled, setBtnDisabled] = useState(true)
     //The message that displays below input box
     const [message, setMessage] = useState(``)
+
+    //imports function from context
+    const {addFeedback} = useContext(FeedbackContext)
 
     //function updating state when text inputed
     const handleTextChange = (e) => {
@@ -41,7 +45,7 @@ function FeedbackForm({handleAdd}) {
                 rating: rating,
             }
             
-            handleAdd(newFeedback)
+            addFeedback(newFeedback)
 
             setText('')
         }
