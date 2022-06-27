@@ -8,6 +8,7 @@ import FeedbackStats from './components/FeedbackStats'
 import FeedbackForm from './components/FeedbackForm'
 import AboutIconLink from './components/AboutIconLink'
 import AboutPage from './pages/AboutPage'
+import {FeedbackProvider} from './context/FeedbackContext' //for non-default exports you must put {}, see FeedbackContext.js to see that we manually put 'export const'
 
 function App() {
     const [feedback, setFeedback] = useState(FeedbackData)
@@ -24,29 +25,31 @@ function App() {
     }
 
     return (
-        <Router>
-            
-            {/* This imports the Header component we built */}
-            <Header/>
+        <FeedbackProvider>
+            <Router>
+                
+                {/* This imports the Header component we built */}
+                <Header/>
 
-            {/* Important: must use 'className' instead of 'class' for JSX (version of HTML used in React) */}
-            {/*Important: this return must only have 1 html component*/}
-            <div className='container'>
-                <Routes>
-                    <Route exact path='/' element={
-                        <>
-                            <FeedbackForm handleAdd={addFeedback} />
-                            <FeedbackStats feedback={feedback} />
-                            <FeedbackList feedback={feedback} handleDelete={deleteFeedback} />
-                        </>
-                    }></Route>
+                {/* Important: must use 'className' instead of 'class' for JSX (version of HTML used in React) */}
+                {/*Important: this return must only have 1 html component*/}
+                <div className='container'>
+                    <Routes>
+                        <Route exact path='/' element={
+                            <>
+                                <FeedbackForm handleAdd={addFeedback} />
+                                <FeedbackStats />
+                                <FeedbackList handleDelete={deleteFeedback} />
+                            </>
+                        }></Route>
 
-                    <Route path='/about' element={<AboutPage/>} />
-                </Routes>
+                        <Route path='/about' element={<AboutPage/>} />
+                    </Routes>
 
-                <AboutIconLink />
-            </div>
-        </Router>
+                    <AboutIconLink />
+                </div>
+            </Router>
+        </FeedbackProvider>
     )
 }
 
